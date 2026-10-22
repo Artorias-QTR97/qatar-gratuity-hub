@@ -4,7 +4,6 @@ A free, private calculator for Qatar end-of-service gratuity, final settlement, 
 
 - **Spec:** [SPEC.md](SPEC.md)
 - **Legal sources and open questions:** [LEGAL-VERIFY.md](LEGAL-VERIFY.md)
-- **Old prototype:** `legacy-prototype/` (kept for reference; not used)
 
 ## Languages
 English, Arabic, Hindi, Malayalam, Nepali, Bengali, Filipino, Urdu, Tamil and Sinhala, at `/<code>/`. Arabic and Urdu are right-to-left. Only English is marked as reviewed; every other language shows a "machine-assisted translation" note in the footer until a native speaker checks it. To mark a language as reviewed, set `reviewed: true` in `src/i18n/index.ts`.
@@ -33,10 +32,16 @@ npm run build    # static site in dist/
 | `src/config/monetization.ts` | Money-transfer partners and affiliate links |
 | `src/config/fxFallback.ts` | Offline exchange rates |
 | `src/scripts/` | Browser code for each page |
-| `public/_headers` | Cloudflare Pages security headers (strict CSP) |
+| `src/config/official.ts` | Links to the Ministry of Labour and the Labour Law text |
+| `public/_headers` | Security headers (strict CSP), applied by Cloudflare |
+| `wrangler.jsonc` | Cloudflare Workers config: serves `dist/` as static files |
 
-## Deploy to Cloudflare Pages
-Build command `npm run build`, output directory `dist`. Set `site` in `astro.config.mjs` to the real domain first, because it's used for canonical and hreflang links. Add HSTS `preload` only once the domain is final.
+## Deployment
+Live at https://qatar-settlement-hub.qatarhub.workers.dev/ on Cloudflare Workers, connected to this GitHub repo. Every push to `main` rebuilds and publishes automatically.
+
+Cloudflare's build settings: build command `npm run build`, deploy command `npx wrangler deploy`, and variable `NODE_VERSION=22`.
+
+If the address changes (for example, a custom domain), update `site` in `astro.config.mjs`, because it's used for canonical and hreflang links. Add HSTS `preload` only once the domain is final.
 
 ## Differences from SPEC.md
 - The interactive parts are plain TypeScript modules rather than Preact islands. Each page ships about 20 KB of JavaScript.
