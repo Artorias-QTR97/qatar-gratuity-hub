@@ -200,7 +200,8 @@ export const en = {
   'privacyPage.title': 'Privacy',
   'privacyPage.p1':
     'This site has no server code and no database. Everything you type stays in your browser and disappears when you close the tab.',
-  'privacyPage.p2': "We don't use cookies, analytics or ads. The only thing saved on your device is your language choice.",
+  'privacyPage.p2':
+    "We don't use cookies or ads. We count anonymous page visits with Cloudflare Web Analytics, which sets no cookies and doesn't follow you to other sites. It never sees what you type into the calculator. The only thing saved on your device is your language choice.",
   'privacyPage.p3':
     'To show exchange rates, your browser downloads public rates from open.er-api.com. That request contains nothing about you or your salary.',
   'privacyPage.p4': 'Links to money-transfer providers open their own websites, which have their own privacy policies.',

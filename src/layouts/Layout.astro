@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { LANGUAGES, getLanguage, translator, DICTIONARIES } from '../i18n';
 import { RULES } from '../rules/qatar';
 import { officialLinks } from '../config/official';
+import { CF_ANALYTICS_TOKEN } from '../config/analytics';
 
 interface Props {
   lang: string;
@@ -78,6 +79,16 @@ const clientData = JSON.stringify({
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={structuredData} />
+    {
+      CF_ANALYTICS_TOKEN && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
+        />
+      )
+    }
   </head>
   <body class="antialiased">
     <script type="application/json" id="i18n-data" set:html={clientData} />

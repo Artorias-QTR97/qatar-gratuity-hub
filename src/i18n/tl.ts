@@ -190,7 +190,8 @@ export const tl: Dict = {
 
   'privacyPage.title': 'Privacy',
   'privacyPage.p1': 'Walang server code o database ang site na ito. Lahat ng tina-type mo ay nasa browser mo lang at nawawala kapag isinara mo ang tab.',
-  'privacyPage.p2': 'Hindi kami gumagamit ng cookies, analytics o ads. Ang pinili mong wika lang ang naka-save sa device mo.',
+  'privacyPage.p2':
+    'Hindi kami gumagamit ng cookies o ads. Binibilang namin nang anonymous ang mga pagbisita gamit ang Cloudflare Web Analytics, na walang cookies at hindi ka sinusundan sa ibang site. Hindi nito nakikita ang tina-type mo sa calculator. Ang pinili mong wika lang ang naka-save sa device mo.',
   'privacyPage.p3': 'Para ipakita ang exchange rates, nagda-download ang browser mo ng pampublikong rates mula sa open.er-api.com. Walang impormasyon tungkol sa iyo o sa sahod mo ang kasama rito.',
   'privacyPage.p4': 'Ang mga link sa money-transfer providers ay nagbubukas ng sarili nilang website, na may sariling privacy policy.',
 

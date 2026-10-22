@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { LANGUAGES, translator } from '../i18n';
+import { CF_ANALYTICS_TOKEN } from '../config/analytics';
 
 const site = Astro.site ?? new URL('https://example.com');
 const t = translator('en');
@@ -19,6 +20,16 @@ const choices = LANGUAGES.map((l) => ({ ...l, title: translator(l.code)('choose.
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(`/${l.code}/`, site).href} />)}
     <link rel="alternate" hreflang="x-default" href={new URL('/en/', site).href} />
+    {
+      CF_ANALYTICS_TOKEN && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: CF_ANALYTICS_TOKEN })}
+        />
+      )
+    }
   </head>
   <body>
     <header class="bg-maroon text-on-maroon">
