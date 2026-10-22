@@ -1,6 +1,6 @@
 # Qatar Gratuity Hub — Product & Technical Specification (v2)
 
-> Supersedes `gemini-code-1792625180919.md`. Written to be handed to a developer or coding model as the single source of truth.
+> Supersedes the original Gemini-generated prompt (removed from the repo; see git history). Written to be handed to a developer or coding model as the single source of truth.
 > Every legal rule below carries a status: **[VERIFIED]** (well supported by multiple reputable sources) or **[VERIFY]** (sources conflict or the statute text has not been checked). All [VERIFY] items are tracked in `LEGAL-VERIFY.md` and **must be resolved before public launch**.
 > Spec date: 2026-10-22 (legal pass 2 the same day: rules checked against the English text of Law 14/2004 and of Law 18/2020 — see `LEGAL-VERIFY.md`). Law reference: Qatar Labour Law No. 14 of 2004, as amended (incl. Law No. 18 of 2020 and Law No. 9 of 2026, published in the Official Gazette 25 June 2026; implementing decisions for Law 9/2026 still pending). English texts are unofficial translations; the Arabic original prevails.
 
