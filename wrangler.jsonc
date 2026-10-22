@@ -1,0 +1,10 @@
+// Cloudflare Workers config: serves the static Astro build from dist/ (no server code).
+// public/_headers is copied into dist/ and applied by Cloudflare's static asset handling.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "qatar-settlement-hub",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
