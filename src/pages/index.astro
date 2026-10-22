@@ -20,12 +20,17 @@ const choices = LANGUAGES.map((l) => ({ ...l, title: translator(l.code)('choose.
     <link rel="alternate" hreflang="x-default" href={new URL('/en/', site).href} />
   </head>
   <body>
-    <header class="relative overflow-hidden bg-maroon text-on-maroon">
-      <div class="serration absolute inset-y-0 start-0 w-14 sm:w-24" aria-hidden="true"></div>
-      <div class="relative mx-auto max-w-4xl ps-20 pe-4 sm:ps-32 py-10 sm:py-14">
-        <p class="text-sm font-semibold opacity-85">{t('site.name')}</p>
+    <header class="bg-maroon text-on-maroon">
+      <div class="mx-auto max-w-4xl px-4 py-10 sm:py-14">
+        <svg width="56" height="39" viewBox="0 0 40 28" aria-hidden="true" class="rounded-[3px] ring-1 ring-white/70">
+          <rect width="40" height="28" fill="#8a1538"></rect>
+          <path
+            d="M0 0h11l5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55H0z"
+            fill="#fff"></path>
+        </svg>
+        <p class="mt-4 text-sm font-semibold text-white/80">{t('site.name')}</p>
         <h1 class="mt-1 text-2xl sm:text-4xl font-bold tracking-tight">{t('meta.title')}</h1>
-        <p class="mt-2 max-w-xl opacity-90">{t('site.tagline')}</p>
+        <p class="mt-2 max-w-xl text-white/85">{t('site.tagline')}</p>
       </div>
     </header>
     <main class="mx-auto max-w-4xl px-4 py-8">

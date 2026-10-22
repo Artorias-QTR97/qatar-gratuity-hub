@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Field from '../../components/Field.astro';
 import Step from '../../components/Step.astro';
+import OfficialLinks from '../../components/OfficialLinks.astro';
 import { LANGUAGES, translator, getLanguage } from '../../i18n';
 import { CURRENCIES } from '../../config/monetization';
 import { RULES } from '../../rules/qatar';
@@ -21,6 +22,7 @@ const faqs = [1, 2, 3, 4] as const;
   <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start">
     <section aria-labelledby="calc-title">
       <h1 id="calc-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-ink">{t('meta.title')}</h1>
+      <OfficialLinks lang={lang} class="mt-3" />
 
       <details class="card mt-4 p-4 text-sm">
         <summary class="cursor-pointer font-bold text-maroon-ink">{t('scope.title')}</summary>
@@ -131,12 +133,12 @@ const faqs = [1, 2, 3, 4] as const;
     </section>
 
     <aside class="lg:sticky lg:top-4 space-y-4" aria-labelledby="res-title">
-      <div class="card overflow-hidden" aria-live="polite">
-        <div class="relative bg-maroon text-on-maroon px-5 pt-4 pb-5">
-          <h2 id="res-title" class="text-sm font-semibold uppercase tracking-wide opacity-90">{t('res.title')}</h2>
-          <p class="mt-1 text-xs opacity-80" data-out="totalLabel">{t('res.total')}</p>
-          <p class="num mt-1 text-3xl sm:text-4xl font-bold" data-out="total">—</p>
-          <p class="mt-2 text-sm opacity-90" data-out="service"></p>
+      <div class="card overflow-hidden border-t-4 border-t-maroon" aria-live="polite">
+        <div class="border-b border-line px-5 pt-4 pb-4">
+          <h2 id="res-title" class="text-xs font-semibold uppercase tracking-wider text-muted">{t('res.title')}</h2>
+          <p class="mt-1 text-xs text-muted" data-out="totalLabel">{t('res.total')}</p>
+          <p class="num mt-0.5 text-3xl sm:text-4xl font-bold text-maroon" data-out="total">—</p>
+          <p class="mt-1 text-sm text-muted" data-out="service"></p>
         </div>
         <div class="p-5 space-y-4">
           <p class="text-sm text-muted" data-out="empty">{t('res.empty')}</p>
@@ -160,12 +162,10 @@ const faqs = [1, 2, 3, 4] as const;
               <a href="#send-home" class="btn btn-ghost" id="btn-convert">{t('btn.convert')}</a>
             </div>
           </div>
-          <p class="text-xs text-muted">
-            {t('res.complaint')}
-            <a href="https://www.mol.gov.qa/" rel="noopener noreferrer" target="_blank" class="font-semibold text-maroon-ink">
-              {t('res.ministryLink')} ↗
-            </a>
-          </p>
+          <div class="border-t border-line pt-4">
+            <p class="text-xs text-muted">{t('res.complaint')}</p>
+            <OfficialLinks lang={lang} showComplaint class="mt-3" />
+          </div>
         </div>
       </div>
     </aside>
@@ -175,15 +175,14 @@ const faqs = [1, 2, 3, 4] as const;
     href="#res-title"
     data-out="sticky"
     hidden
-    class="lg:hidden fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 bg-maroon px-4 py-3 text-on-maroon no-underline shadow-[0_-4px_16px_rgba(0,0,0,0.2)]"
+    class="lg:hidden fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t-2 border-maroon bg-white px-4 py-3 text-ink no-underline shadow-[0_-4px_12px_rgba(0,0,0,0.06)]"
   >
     <span class="text-sm font-semibold" data-out="stickyLabel">{t('res.total')}</span>
-    <span class="num text-lg font-bold" data-out="stickyTotal"></span>
+    <span class="num text-lg font-bold text-maroon" data-out="stickyTotal"></span>
   </a>
 
   <section id="send-home" class="mt-10 scroll-mt-4" aria-labelledby="fx-title">
     <div class="card overflow-hidden">
-      <div class="serration-x h-3" aria-hidden="true"></div>
       <div class="p-5 sm:p-6">
         <h2 id="fx-title" class="text-xl sm:text-2xl font-bold">{t('fx.title')}</h2>
         <p class="mt-1 text-muted">{t('fx.intro')}</p>
@@ -201,7 +200,7 @@ const faqs = [1, 2, 3, 4] as const;
                 </select>
               </div>
             </div>
-            <div class="rounded-xl bg-maroon-tint p-4">
+            <div class="rounded-xl border border-line p-4">
               <p class="text-sm text-muted">{t('fx.mid')}</p>
               <p class="num text-2xl font-bold text-maroon-ink" data-fx="mid">—</p>
               <p class="num text-sm text-muted" data-fx="rate"></p>

@@ -90,7 +90,11 @@ export const en = {
   'res.disputed': 'If the dismissal is overturned, you could claim about {amount}.',
   'res.complaint':
     'Not paid? Complain to the Ministry of Labour. It will first try to settle the dispute, then refer it to the Labour Dispute Settlement Committee.',
-  'res.ministryLink': 'Ministry of Labour website',
+  'verify.title': 'Check it yourself on official Qatar government sites',
+  'verify.mol': 'Ministry of Labour',
+  'verify.law': 'Labour Law full text (Al Meezan)',
+  'verify.complaint': 'File a complaint',
+  'verify.newTab': 'Opens an official government website in a new tab',
 
   'w.notEligible':
     'Gratuity needs at least one full year of service (Art. 54). You can still claim salary, leave pay and notice pay.',

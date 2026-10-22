@@ -8,7 +8,7 @@ import {
 } from '../engine/settlement';
 import { RULES } from '../rules/qatar';
 import type { DictKey } from '../i18n/en';
-import { date, el, formula, money, num, t } from './client-i18n';
+import { date, el, formula, lawLink, money, num, t } from './client-i18n';
 
 const form = document.getElementById('settlement-form') as HTMLFormElement | null;
 
@@ -130,7 +130,9 @@ if (form) {
       how.append(el('summary', 'cursor-pointer', t('res.how')));
       const f = el('p', 'num mt-1', `${formula(line.formula)} = ${money(Math.abs(line.amount))}`);
       f.dir = 'ltr';
-      how.append(f, el('p', 'mt-0.5', line.legalBasis));
+      const basis = el('p', 'mt-0.5');
+      basis.append(lawLink(line.legalBasis));
+      how.append(f, basis);
       li.append(row, how);
       return li;
     });

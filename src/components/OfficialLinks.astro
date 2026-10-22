@@ -1,0 +1,44 @@
+---
+import { translator } from '../i18n';
+import { officialLinks } from '../config/official';
+
+interface Props {
+  lang: string;
+  showComplaint?: boolean;
+  class?: string;
+}
+
+const { lang, showComplaint = false, class: className } = Astro.props;
+const t = translator(lang);
+const links = officialLinks(lang);
+const items = [
+  { href: links.ministry, label: t('verify.mol') },
+  { href: links.law, label: t('verify.law') },
+  ...(showComplaint ? [{ href: links.complaint, label: t('verify.complaint') }] : []),
+];
+---
+
+<div class={className}>
+  <p class="flex items-center gap-1.5 text-sm font-semibold text-ink">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="text-maroon">
+      <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"></path>
+      <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    {t('verify.title')}
+  </p>
+  <ul class="mt-2 flex flex-wrap gap-2" role="list">
+    {
+      items.map((item) => (
+        <li>
+          <a class="gov-pill" href={item.href} target="_blank" rel="noopener noreferrer" title={t('verify.newTab')}>
+            <span>{item.label}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true" class="rtl:-scale-x-100">
+              <path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="sr-only">({t('verify.newTab')})</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

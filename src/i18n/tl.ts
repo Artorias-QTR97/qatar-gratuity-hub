@@ -91,7 +91,11 @@ export const tl: Dict = {
   'res.disputed': 'Kung mababaligtad ang pagkatanggal, puwede kang mag-claim ng mga {amount}.',
   'res.complaint':
     'Hindi nabayaran? Magreklamo sa Ministry of Labour. Susubukan muna nitong ayusin ang alitan, saka ipapasa sa Labour Dispute Settlement Committee.',
-  'res.ministryLink': 'Website ng Ministry of Labour',
+  'verify.title': 'Suriin mismo sa opisyal na website ng gobyerno ng Qatar',
+  'verify.mol': 'Ministry of Labour',
+  'verify.law': 'Buong teksto ng Labour Law (Al Meezan)',
+  'verify.complaint': 'Magsampa ng reklamo',
+  'verify.newTab': 'Bubuksan ang opisyal na website ng gobyerno sa bagong tab',
 
   'w.notEligible': 'Kailangan ng kahit isang buong taon ng serbisyo para sa gratuity (Art. 54). Makukuha mo pa rin ang sahod, leave pay at notice pay.',
   'w.art61':

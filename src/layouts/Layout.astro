@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { LANGUAGES, getLanguage, translator, DICTIONARIES } from '../i18n';
 import { RULES } from '../rules/qatar';
+import { officialLinks } from '../config/official';
 
 interface Props {
   lang: string;
@@ -22,7 +23,13 @@ const nav = [
   { key: 'overtime', href: `/${lang}/overtime/`, label: t('nav.overtime') },
   { key: 'sendHome', href: `/${lang}/#send-home`, label: t('nav.sendHome') },
 ] as const;
-const clientData = JSON.stringify({ lang, intl: language.intl, homeCurrency: language.homeCurrency, dict: DICTIONARIES[lang] }).replace(
+const clientData = JSON.stringify({
+  lang,
+  intl: language.intl,
+  homeCurrency: language.homeCurrency,
+  lawUrl: officialLinks(lang).law,
+  dict: DICTIONARIES[lang],
+}).replace(
   /</g,
   '\\u003c',
 );
@@ -49,58 +56,77 @@ const clientData = JSON.stringify({ lang, intl: language.intl, homeCurrency: lan
     <div class="screen-only">
       <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:p-2 focus:bg-surface">Skip to content</a>
 
-      <header class="relative overflow-hidden bg-maroon text-on-maroon">
-        <div class="serration absolute inset-y-0 start-0 w-10 sm:w-16" aria-hidden="true"></div>
-        <div class="relative mx-auto max-w-6xl ps-14 pe-4 sm:ps-24 sm:pe-6 py-4">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <a href={`/${lang}/`} class="flex flex-col no-underline text-on-maroon">
-              <span class="text-lg sm:text-xl font-bold tracking-tight">{t('site.name')}</span>
-              <span class="text-xs sm:text-sm opacity-85 max-w-md">{t('site.tagline')}</span>
+      <header class="bg-maroon text-on-maroon">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 py-3">
+            <a href={`/${lang}/`} class="flex items-center gap-3 no-underline text-on-maroon">
+              <svg width="40" height="28" viewBox="0 0 40 28" aria-hidden="true" class="flex-none rounded-[3px] ring-1 ring-white/70 rtl:-scale-x-100">
+                <rect width="40" height="28" fill="#8a1538"></rect>
+                <path
+                  d="M0 0h11l5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55H0z"
+                  fill="#fff"></path>
+              </svg>
+              <span class="flex flex-col leading-tight">
+                <span class="text-base sm:text-lg font-bold tracking-tight">{t('site.name')}</span>
+                <span class="hidden sm:block text-xs text-white/80 max-w-md">{t('site.tagline')}</span>
+              </span>
             </a>
-            <details class="relative group">
-              <summary
-                class="list-none cursor-pointer select-none rounded-lg border border-white/40 px-3 py-2 text-sm font-semibold hover:bg-white/10"
-                aria-label={t('nav.language')}
+            <div class="flex items-center gap-2">
+              <a
+                class="gov-pill gov-pill-on-maroon hidden md:inline-flex"
+                href={officialLinks(lang).ministry}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={t('verify.newTab')}
               >
-                <span aria-hidden="true">🌐</span>
-                {language.name}
-                <span aria-hidden="true" class="ms-1 text-xs">▾</span>
-              </summary>
-              <ul
-                class="absolute end-0 z-20 mt-2 w-56 rounded-xl border border-line bg-surface p-1 text-ink shadow-xl"
-                role="list"
-              >
-                {
-                  LANGUAGES.map((l) => (
-                    <li>
-                      <a
-                        href={`/${l.code}/${path}`}
-                        hreflang={l.code}
-                        lang={l.code}
-                        data-set-lang={l.code}
-                        class:list={[
-                          'flex items-center justify-between rounded-lg px-3 py-2 no-underline text-ink hover:bg-maroon-tint',
-                          l.code === lang && 'bg-maroon-tint font-bold',
-                        ]}
-                        aria-current={l.code === lang ? 'true' : undefined}
-                      >
-                        <span>{l.name}</span>
-                        <span class="text-xs text-muted" lang="en">{l.englishName}</span>
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </details>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"></path>
+                  <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                {t('verify.mol')} ↗
+              </a>
+              <details class="relative">
+                <summary
+                  class="list-none cursor-pointer select-none rounded-full border border-white/40 px-3 py-1.5 text-sm font-semibold text-on-maroon hover:bg-white/10"
+                  aria-label={t('nav.language')}
+                >
+                  <span aria-hidden="true">🌐</span>
+                  {language.name}
+                  <span aria-hidden="true" class="ms-1 text-xs text-white/70">▾</span>
+                </summary>
+                <ul class="absolute end-0 z-20 mt-2 w-56 rounded-xl border border-line bg-white p-1 text-ink shadow-lg" role="list">
+                  {
+                    LANGUAGES.map((l) => (
+                      <li>
+                        <a
+                          href={`/${l.code}/${path}`}
+                          hreflang={l.code}
+                          lang={l.code}
+                          data-set-lang={l.code}
+                          class:list={[
+                            'flex items-center justify-between rounded-lg px-3 py-2 no-underline text-ink hover:bg-maroon-tint',
+                            l.code === lang && 'bg-maroon-tint font-bold text-maroon',
+                          ]}
+                          aria-current={l.code === lang ? 'true' : undefined}
+                        >
+                          <span>{l.name}</span>
+                          <span class="text-xs text-muted" lang="en">{l.englishName}</span>
+                        </a>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </details>
+            </div>
           </div>
-          <nav class="mt-3 flex flex-wrap gap-1" aria-label="Main">
+          <nav class="-mb-px flex gap-5 overflow-x-auto" aria-label="Main">
             {
               nav.map((item) => (
                 <a
                   href={item.href}
                   class:list={[
-                    'rounded-full px-3 py-1.5 text-sm font-semibold no-underline text-on-maroon',
-                    active === item.key ? 'bg-white/20' : 'hover:bg-white/10',
+                    'whitespace-nowrap border-b-2 pb-2.5 pt-1 text-sm font-semibold no-underline',
+                    active === item.key ? 'border-white text-on-maroon' : 'border-transparent text-white/75 hover:text-on-maroon',
                   ]}
                   aria-current={active === item.key ? 'page' : undefined}
                 >
@@ -112,25 +138,37 @@ const clientData = JSON.stringify({ lang, intl: language.intl, homeCurrency: lan
         </div>
       </header>
 
-      <div class="border-b border-line bg-maroon-tint">
-        <p class="mx-auto max-w-6xl px-4 sm:px-6 py-2 text-sm font-semibold text-maroon-ink">
-          <span aria-hidden="true">🔒</span>
-          {t('privacy.badge')}
-        </p>
-      </div>
+      <p class="mx-auto max-w-6xl px-4 sm:px-6 pt-4 text-xs text-muted">
+        <span aria-hidden="true">🔒</span>
+        {t('privacy.badge')}
+      </p>
 
-      <main id="main" class="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
+      <main id="main" class="mx-auto max-w-6xl px-4 sm:px-6 py-5 sm:py-6">
         <slot />
       </main>
 
-      <footer class="mt-8 border-t border-line pb-16 lg:pb-0">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6 text-sm text-muted space-y-2">
-          <p>{t('footer.disclaimer')}</p>
-          <p>{t('footer.review', { date: RULES.lastLegalReview })}</p>
-          {!language.reviewed && <p class="italic">{t('footer.translation')}</p>}
-          <p>
-            <a href={`/${lang}/privacy/`} class="font-semibold text-maroon-ink">{t('footer.privacy')}</a>
-          </p>
+      <footer class="mt-10 bg-maroon text-white/85 pb-16 lg:pb-0">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 text-sm">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/20 pb-5">
+            <span class="flex items-center gap-3 font-bold text-on-maroon">
+              <svg width="32" height="22" viewBox="0 0 40 28" aria-hidden="true" class="flex-none rounded-[3px] ring-1 ring-white/70 rtl:-scale-x-100">
+                <rect width="40" height="28" fill="#8a1538"></rect>
+                <path
+                  d="M0 0h11l5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55 5 1.56-5 1.55H0z"
+                  fill="#fff"></path>
+              </svg>
+              {t('site.name')}
+            </span>
+            <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
+              {nav.map((item) => <a href={item.href} class="text-white/85 no-underline hover:text-white">{item.label}</a>)}
+              <a href={`/${lang}/privacy/`} class="text-white/85 no-underline hover:text-white">{t('footer.privacy')}</a>
+            </nav>
+          </div>
+          <div class="mt-5 space-y-2">
+            <p>{t('footer.disclaimer')}</p>
+            <p class="text-white/70">{t('footer.review', { date: RULES.lastLegalReview })}</p>
+            {!language.reviewed && <p class="italic text-white/70">{t('footer.translation')}</p>}
+          </div>
         </div>
       </footer>
     </div>

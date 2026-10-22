@@ -18,48 +18,27 @@
 @import '@fontsource/noto-nastaliq-urdu/400.css';
 @import '@fontsource/noto-nastaliq-urdu/700.css';
 
-/* Qatar flag palette: maroon (Pantone 1955) and white. */
+/* Qatar flag palette: maroon (Pantone 1955) on white. Always light, kept deliberately minimal. */
 :root {
   --maroon: #8a1538;
   --maroon-strong: #6e102c;
   --maroon-ink: #8a1538;
-  --maroon-tint: #f8e9ee;
-  --maroon-tint-2: #f1d4de;
-  --bg: #faf6f7;
+  --maroon-tint: #fbf3f6;
+  --maroon-tint-2: #f0d9e1;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #fdfafb;
-  --text: #22161a;
-  --muted: #6b5a60;
-  --border: #e9dde1;
-  --focus: #c23a63;
-  --warn-bg: #fff6e5;
-  --warn-border: #f0d29a;
+  --surface-2: #ffffff;
+  --text: #1c1417;
+  --muted: #6f6266;
+  --border: #ece6e8;
+  --focus: #8a1538;
+  --warn-bg: #fffaf0;
+  --warn-border: #f2e2bd;
   --warn-text: #6b4a00;
   --on-maroon: #ffffff;
   --font-body: 'Inter', system-ui, sans-serif;
   --leading: 1.55;
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --maroon: #8a1538;
-    --maroon-strong: #a51d47;
-    --maroon-ink: #e07b98;
-    --maroon-tint: #2c141c;
-    --maroon-tint-2: #3d1a26;
-    --bg: #130b0e;
-    --surface: #1d1216;
-    --surface-2: #22151a;
-    --text: #f6ecef;
-    --muted: #bba6ad;
-    --border: #3a262d;
-    --focus: #e07b98;
-    --warn-bg: #2b2210;
-    --warn-border: #5c4718;
-    --warn-text: #f3d48c;
-    color-scheme: dark;
-  }
 }
 
 html[lang='ar'] { --font-body: 'Cairo', 'Inter', system-ui, sans-serif; }
@@ -116,7 +95,7 @@ html[lang='si'] { --font-body: 'Inter', 'Noto Sans Sinhala', system-ui, sans-ser
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: 0.75rem;
   }
   .field-label {
     display: block;
@@ -203,38 +182,32 @@ html[lang='si'] { --font-body: 'Inter', 'Noto Sans Sinhala', system-ui, sans-ser
     inline-size: 1.75rem;
     block-size: 1.75rem;
     border-radius: 999px;
-    background: var(--maroon);
-    color: var(--on-maroon);
-    font-size: 0.85rem;
+    border: 1.5px solid var(--maroon);
+    color: var(--maroon);
+    font-size: 0.8rem;
     font-weight: 700;
     flex: none;
   }
-}
-
-/* The flag's nine-point serrated edge, used as a decorative band. */
-.serration {
-  background: var(--on-maroon);
-  clip-path: polygon(
-    0 0, 55% 0,
-    100% 5.556%, 55% 11.111%, 100% 16.667%, 55% 22.222%, 100% 27.778%, 55% 33.333%,
-    100% 38.889%, 55% 44.444%, 100% 50%, 55% 55.556%, 100% 61.111%, 55% 66.667%,
-    100% 72.222%, 55% 77.778%, 100% 83.333%, 55% 88.889%, 100% 94.444%, 55% 100%,
-    0 100%
-  );
-}
-[dir='rtl'] .serration { transform: scaleX(-1); }
-
-.serration-x {
-  background: var(--maroon);
-  clip-path: polygon(
-    0 0, 100% 0, 100% 40%,
-    97.222% 100%, 94.444% 40%, 91.667% 100%, 88.889% 40%, 86.111% 100%, 83.333% 40%,
-    80.556% 100%, 77.778% 40%, 75% 100%, 72.222% 40%, 69.444% 100%, 66.667% 40%,
-    63.889% 100%, 61.111% 40%, 58.333% 100%, 55.556% 40%, 52.778% 100%, 50% 40%,
-    47.222% 100%, 44.444% 40%, 41.667% 100%, 38.889% 40%, 36.111% 100%, 33.333% 40%,
-    30.556% 100%, 27.778% 40%, 25% 100%, 22.222% 40%, 19.444% 100%, 16.667% 40%,
-    13.889% 100%, 11.111% 40%, 8.333% 100%, 5.556% 40%, 2.778% 100%, 0 40%
-  );
+  .gov-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--maroon-tint-2);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--maroon);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+  .gov-pill:hover { background: var(--maroon-tint); border-color: var(--maroon); }
+  .gov-pill-on-maroon { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.4); }
+  .gov-pill-on-maroon:hover { background: rgb(255 255 255 / 0.1); border-color: #fff; }
+  .gov-pill svg { flex: none; }
+  .law-link { color: inherit; text-decoration: underline; text-decoration-color: var(--maroon-tint-2); text-underline-offset: 2px; }
+  .law-link:hover { color: var(--maroon); text-decoration-color: var(--maroon); }
 }
 
 .print-only { display: none; }

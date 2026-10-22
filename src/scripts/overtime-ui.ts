@@ -1,6 +1,6 @@
 import { calculateOvertime, DEFAULT_OVERTIME, type OvertimeInput } from '../engine/overtime';
 import type { DictKey } from '../i18n/en';
-import { el, formula, money, num, t } from './client-i18n';
+import { el, formula, lawLink, money, num, t } from './client-i18n';
 
 const form = document.getElementById('overtime-form') as HTMLFormElement | null;
 
@@ -84,7 +84,7 @@ if (form) {
           row,
           el('p', 'text-xs text-muted mt-1', t('ot.hours', { hours: num(line.hours), mult: num(line.multiplier) })),
           detail,
-          el('p', 'text-xs text-muted', line.legalBasis),
+          lawLink(line.legalBasis, 'text-xs text-muted'),
         );
         return li;
       }),

@@ -5,6 +5,7 @@ interface ClientData {
   lang: string;
   intl: string;
   homeCurrency: string;
+  lawUrl: string;
   dict: Dict;
 }
 
@@ -13,6 +14,16 @@ const locale = `${data.intl}-u-nu-latn`;
 
 export const lang = data.lang;
 export const homeCurrency = data.homeCurrency;
+
+/** A link to the official Labour Law text, labelled with the article (e.g. "Art. 54"). */
+export function lawLink(legalBasis: string, className = ''): HTMLAnchorElement {
+  const a = el('a', `law-link ${className}`.trim(), `${legalBasis} ↗`);
+  a.href = data.lawUrl;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.title = t('verify.newTab');
+  return a;
+}
 
 export function t(key: DictKey, vars?: Record<string, string | number>): string {
   let text = data.dict[key] ?? key;
