@@ -1,0 +1,142 @@
+---
+import '../styles/global.css';
+import { LANGUAGES, getLanguage, translator, DICTIONARIES } from '../i18n';
+import { RULES } from '../rules/qatar';
+
+interface Props {
+  lang: string;
+  /** Path after the language prefix, e.g. '' or 'overtime/'. */
+  path: string;
+  title?: string;
+  active?: 'settlement' | 'overtime' | 'privacy';
+}
+
+const { lang, path, title, active } = Astro.props;
+const language = getLanguage(lang);
+const t = translator(lang);
+const site = Astro.site ?? new URL('https://example.com');
+const pageTitle = title ? `${title} · ${t('site.name')}` : t('meta.title');
+const canonical = new URL(`/${lang}/${path}`, site).href;
+const nav = [
+  { key: 'settlement', href: `/${lang}/`, label: t('nav.settlement') },
+  { key: 'overtime', href: `/${lang}/overtime/`, label: t('nav.overtime') },
+  { key: 'sendHome', href: `/${lang}/#send-home`, label: t('nav.sendHome') },
+] as const;
+const clientData = JSON.stringify({ lang, intl: language.intl, homeCurrency: language.homeCurrency, dict: DICTIONARIES[lang] }).replace(
+  /</g,
+  '\\u003c',
+);
+---
+
+<!doctype html>
+<html lang={lang} dir={language.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={t('meta.description')} />
+    <meta name="theme-color" content="#8a1538" />
+    <link rel="canonical" href={canonical} />
+    {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(`/${l.code}/${path}`, site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(`/en/${path}`, site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={t('meta.description')} />
+    <meta property="og:locale" content={language.intl.replace('-', '_')} />
+  </head>
+  <body class="antialiased">
+    <script type="application/json" id="i18n-data" set:html={clientData} />
+    <div class="screen-only">
+      <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:p-2 focus:bg-surface">Skip to content</a>
+
+      <header class="relative overflow-hidden bg-maroon text-on-maroon">
+        <div class="serration absolute inset-y-0 start-0 w-10 sm:w-16" aria-hidden="true"></div>
+        <div class="relative mx-auto max-w-6xl ps-14 pe-4 sm:ps-24 sm:pe-6 py-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <a href={`/${lang}/`} class="flex flex-col no-underline text-on-maroon">
+              <span class="text-lg sm:text-xl font-bold tracking-tight">{t('site.name')}</span>
+              <span class="text-xs sm:text-sm opacity-85 max-w-md">{t('site.tagline')}</span>
+            </a>
+            <details class="relative group">
+              <summary
+                class="list-none cursor-pointer select-none rounded-lg border border-white/40 px-3 py-2 text-sm font-semibold hover:bg-white/10"
+                aria-label={t('nav.language')}
+              >
+                <span aria-hidden="true">🌐</span>
+                {language.name}
+                <span aria-hidden="true" class="ms-1 text-xs">▾</span>
+              </summary>
+              <ul
+                class="absolute end-0 z-20 mt-2 w-56 rounded-xl border border-line bg-surface p-1 text-ink shadow-xl"
+                role="list"
+              >
+                {
+                  LANGUAGES.map((l) => (
+                    <li>
+                      <a
+                        href={`/${l.code}/${path}`}
+                        hreflang={l.code}
+                        lang={l.code}
+                        data-set-lang={l.code}
+                        class:list={[
+                          'flex items-center justify-between rounded-lg px-3 py-2 no-underline text-ink hover:bg-maroon-tint',
+                          l.code === lang && 'bg-maroon-tint font-bold',
+                        ]}
+                        aria-current={l.code === lang ? 'true' : undefined}
+                      >
+                        <span>{l.name}</span>
+                        <span class="text-xs text-muted" lang="en">{l.englishName}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
+          </div>
+          <nav class="mt-3 flex flex-wrap gap-1" aria-label="Main">
+            {
+              nav.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={[
+                    'rounded-full px-3 py-1.5 text-sm font-semibold no-underline text-on-maroon',
+                    active === item.key ? 'bg-white/20' : 'hover:bg-white/10',
+                  ]}
+                  aria-current={active === item.key ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </header>
+
+      <div class="border-b border-line bg-maroon-tint">
+        <p class="mx-auto max-w-6xl px-4 sm:px-6 py-2 text-sm font-semibold text-maroon-ink">
+          <span aria-hidden="true">🔒</span>
+          {t('privacy.badge')}
+        </p>
+      </div>
+
+      <main id="main" class="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
+        <slot />
+      </main>
+
+      <footer class="mt-8 border-t border-line pb-16 lg:pb-0">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6 text-sm text-muted space-y-2">
+          <p>{t('footer.disclaimer')}</p>
+          <p>{t('footer.review', { date: RULES.lastLegalReview })}</p>
+          {!language.reviewed && <p class="italic">{t('footer.translation')}</p>}
+          <p>
+            <a href={`/${lang}/privacy/`} class="font-semibold text-maroon-ink">{t('footer.privacy')}</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+    <slot name="print" />
+    <script>
+      import '../scripts/language-pref';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qatar Gratuity & Final Settlement Calculator (2026 Labour Law)</title>
+  <meta name="description" content="Free, instant End of Service Gratuity (EOSB) and Final Settlement Calculator for expats in Qatar. Compliant with Qatar Labour Law No. 14 of 2004." />
+  <meta name="theme-color" content="#8A1538" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Top Security & Privacy Banner -->
+  <div class="top-banner">
+    🔒 100% Private &amp; Browser-Based — Your salary data never leaves your device. Updated for 2026 Qatar Labour Law.
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">Q</div>
+        <div>
+          <h1 class="brand-title">Qatar Final Settlement Hub</h1>
+          <p class="brand-subtitle">Article 54 End-of-Service &amp; Leave Encashment Calculator</p>
+        </div>
+      </div>
+      <a href="#faq" class="nav-link">Labour Law Guide &rarr;</a>
+    </div>
+  </header>
+
+  <!-- Main Calculator Layout -->
+  <main class="container main-grid">
+
+    <!-- Left Column: User Inputs -->
+    <section class="card input-card" aria-labelledby="form-heading">
+      <div class="card-header">
+        <h2 id="form-heading">1. Enter Your Employment Details</h2>
+        <p>All calculations follow Qatar Labour Law No. 14 of 2004 (Article 54).</p>
+      </div>
+
+      <form id="settlementForm" class="form-stack" onsubmit="return false;">
+        <!-- Salary Row -->
+        <div class="grid-2">
+          <div class="field">
+            <label for="basicSalary">Basic Monthly Salary (QAR) *</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">QAR</span>
+              <input type="number" id="basicSalary" value="8000" min="0" step="100" required />
+            </div>
+            <small class="field-hint">Used to calculate End of Service Gratuity &amp; Leave.</small>
+          </div>
+
+          <div class="field">
+            <label for="fullSalary">Total Full Salary (QAR)</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">QAR</span>
+              <input type="number" id="fullSalary" value="12000" min="0" step="100" />
+            </div>
+            <small class="field-hint">Basic + Housing/Transport (for worked days).</small>
+          </div>
+        </div>
+
+        <!-- Dates Row -->
+        <div class="grid-2">
+          <div class="field">
+            <label for="startDate">Joining Date *</label>
+            <input type="date" id="startDate" value="2021-06-01" required />
+          </div>
+
+          <div class="field">
+            <label for="endDate">Last Working Day *</label>
+            <input type="date" id="endDate" value="2026-10-22" required />
+          </div>
+        </div>
+
+        <!-- Days Row -->
+        <div class="grid-3">
+          <div class="field">
+            <label for="unusedLeave">Unused Leave (Days)</label>
+            <input type="number" id="unusedLeave" value="15" min="0" max="365" />
+          </div>
+
+          <div class="field">
+            <label for="workedDays">Days Worked This Month</label>
+            <input type="number" id="workedDays" value="22" min="0" max="31" />
+          </div>
+
+          <div class="field">
+            <label for="unpaidDays">Unpaid Leave (Days)</label>
+            <input type="number" id="unpaidDays" value="0" min="0" />
+          </div>
+        </div>
+
+        <!-- Accrual Rate Box -->
+        <div class="rate-box">
+          <div>
+            <strong>Gratuity Accrual Rate per Year</strong>
+            <p>Statutory minimum in Qatar is 21 days per year (after 1 full year).</p>
+          </div>
+          <select id="gratuityRate" aria-label="Gratuity Accrual Rate">
+            <option value="21" selected>21 Days / Year (Standard)</option>
+            <option value="30">30 Days / Year (Enhanced)</option>
+          </select>
+        </div>
+      </form>
+    </section>
+
+    <!-- Right Column: Output & Affiliate Engine -->
+    <aside class="results-stack">
+      <div class="summary-card">
+        <div class="summary-top">
+          <span class="summary-label">Total Estimated Payout</span>
+          <span id="tenureBadge" class="tenure-badge">0 Yrs, 0 Mos</span>
+        </div>
+
+        <div class="total-qar" id="totalQar">QAR 0</div>
+        <div class="total-usd" id="totalUsd">&approx; $0 USD (at 3.64 QAR/USD peg)</div>
+
+        <div id="ineligibleWarning" class="warning-box hidden" role="alert">
+          ⚠️ Under Article 54, employees with less than 1 full year of continuous service are not eligible for End-of-Service Gratuity (only pro-rata salary &amp; leave apply).
+        </div>
+
+        <div class="breakdown-list">
+          <div class="breakdown-row">
+            <span>End of Service Gratuity:</span>
+            <strong id="gratuityOut">QAR 0</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Unused Leave Encashment:</span>
+            <strong id="leaveOut">QAR 0</strong>
+          </div>
+          <div class="breakdown-row">
+            <span>Current Month Worked Salary:</span>
+            <strong id="salaryOut">QAR 0</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expat Remittance Comparison Card -->
+      <div class="affiliate-card">
+        <span class="tip-badge">Expat Payout Tip</span>
+        <h3>Sending Your Settlement Abroad?</h3>
+        <p>
+          Local bank wire transfers typically charge a <strong>2.5% – 3.5% FX markup</strong>. On your settlement, a traditional bank wire can cost you roughly <strong class="loss-highlight" id="bankLossText">QAR 0</strong> in hidden exchange spreads.
+        </p>
+
+        <div class="cta-group">
+          <a href="https://wise.com/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <span>Compare Mid-Market Rate on Wise</span>
+            <span>Save ~<span id="wiseSaveBtn">QAR 0</span> &rarr;</span>
+          </a>
+
+          <a href="https://www.remitly.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            <span>Check Zero-Fee First Transfer (Remitly)</span>
+            <span>View Rates &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- SEO FAQ Section -->
+  <section id="faq" class="container faq-section">
+    <h2>Qatar End of Service Gratuity Rules (Article 54 Guide)</h2>
+    <div class="grid-3">
+      <article class="faq-card">
+        <h3>1. Minimum 1 Year Requirement</h3>
+        <p>Under Article 54 of Qatar Labour Law No. 14 of 2004, an employee must complete at least one full year (365 days) of continuous employment to qualify for End of Service Gratuity.</p>
+      </article>
+      <article class="faq-card">
+        <h3>2. How the 3-Week Rule Is Calculated</h3>
+        <p>The statutory minimum gratuity is at least <strong>three weeks (21 days) of your last Basic Salary</strong> for each year of employment, plus pro-rata credit for partial months and days worked.</p>
+      </article>
+      <article class="faq-card">
+        <h3>3. Notice Period Rules (Article 49)</h3>
+        <p>For service up to 2 years, the statutory notice period is <strong>1 month</strong>. If you have completed more than 2 years of service, the statutory notice period is <strong>2 months</strong>.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container site-footer">
+    Disclaimer: Calculations are provided for informational estimation under Qatar Labour Law No. 14 of 2004. Always verify final figures with HR or MADLSA.
+  </footer>
+
+  <script src=".\app.js" defer></script>
+</body>
+</html>

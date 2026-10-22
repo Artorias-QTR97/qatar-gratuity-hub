@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { LANGUAGES, translator } from '../../i18n';
+
+export function getStaticPaths() {
+  return LANGUAGES.map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params as { lang: string };
+const t = translator(lang);
+---
+
+<Layout lang={lang} path="privacy/" title={t('privacyPage.title')} active="privacy">
+  <article class="card mx-auto max-w-2xl p-6 sm:p-8 space-y-4">
+    <h1 class="text-2xl font-bold">{t('privacyPage.title')}</h1>
+    <p>{t('privacyPage.p1')}</p>
+    <p>{t('privacyPage.p2')}</p>
+    <p>{t('privacyPage.p3')}</p>
+    <p>{t('privacyPage.p4')}</p>
+  </article>
+</Layout>

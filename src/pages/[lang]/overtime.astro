@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Field from '../../components/Field.astro';
+import Step from '../../components/Step.astro';
+import { LANGUAGES, translator } from '../../i18n';
+
+export function getStaticPaths() {
+  return LANGUAGES.map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params as { lang: string };
+const t = translator(lang);
+const opt = (value: string, key: Parameters<typeof t>[0]) => ({ value, label: t(key) });
+---
+
+<Layout lang={lang} path="overtime/" title={t('ot.title')} active="overtime">
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start">
+    <section aria-labelledby="ot-title">
+      <h1 id="ot-title" class="text-2xl sm:text-3xl font-bold tracking-tight">{t('ot.title')}</h1>
+      <p class="mt-1 text-muted">{t('ot.intro')}</p>
+
+      <form id="overtime-form" class="mt-5 space-y-4" novalidate>
+        <Step n={1} title={t('form.step2')}>
+          <Field name="basicSalary" kind="number" label={t('f.basicSalary')} hint={t('h.basicSalary')} prefix="QAR" min={0} step="any" />
+          <Field
+            name="schedule"
+            kind="select"
+            label={t('ot.schedule')}
+            options={[opt('normal', 'opt.normal'), opt('ramadan', 'opt.ramadan')]}
+          />
+          <Field
+            name="hourlyMethod"
+            kind="select"
+            label={t('ot.hourlyMethod')}
+            options={[opt('daily30', 'opt.daily30'), opt('weekly', 'opt.weekly')]}
+          />
+          <Field name="workingDays" kind="number" label={t('ot.workingDays')} min={0} max={31} step={1} />
+          <Field name="isShiftWorker" kind="toggle" label={t('ot.isShiftWorker')} />
+          <Field name="isManager" kind="toggle" label={t('ot.isManager')} />
+        </Step>
+        <Step n={2} title={t('nav.overtime')} wrap="hoursStep">
+          <Field name="dayOTHours" kind="number" label={t('ot.dayOTHours')} min={0} step="any" />
+          <Field name="nightOTHours" kind="number" label={t('ot.nightOTHours')} min={0} step="any" />
+          <Field name="restDayHours" kind="number" label={t('ot.restDayHours')} min={0} step="any" />
+          <Field name="publicHolidayHours" kind="number" label={t('ot.publicHolidayHours')} min={0} step="any" />
+        </Step>
+        <p class="note">{t('ot.restNote')}</p>
+        <p class="note">{t('ot.holidayNote')}</p>
+      </form>
+    </section>
+
+    <aside class="lg:sticky lg:top-4" aria-labelledby="ot-res-title">
+      <div class="card overflow-hidden" aria-live="polite">
+        <div class="bg-maroon text-on-maroon px-5 pt-4 pb-5">
+          <h2 id="ot-res-title" class="text-sm font-semibold uppercase tracking-wide opacity-90">{t('ot.total')}</h2>
+          <p class="num mt-1 text-3xl sm:text-4xl font-bold" data-ot="total">—</p>
+          <p class="mt-2 text-sm opacity-90" data-ot="hourly"></p>
+        </div>
+        <div class="p-5 space-y-3">
+          <p class="text-sm text-muted" data-ot="empty">{t('res.empty')}</p>
+          <ul class="divide-y divide-line" data-ot="lines" role="list"></ul>
+          <div class="space-y-2" data-ot="warnings"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</Layout>
+
+<script>
+  import '../../scripts/overtime-ui';
+</script>

@@ -1,0 +1,272 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Field from '../../components/Field.astro';
+import Step from '../../components/Step.astro';
+import { LANGUAGES, translator, getLanguage } from '../../i18n';
+import { CURRENCIES } from '../../config/monetization';
+import { RULES } from '../../rules/qatar';
+
+export function getStaticPaths() {
+  return LANGUAGES.map((l) => ({ params: { lang: l.code } }));
+}
+
+const { lang } = Astro.params as { lang: string };
+const t = translator(lang);
+const language = getLanguage(lang);
+const opt = (value: string, key: Parameters<typeof t>[0]) => ({ value, label: t(key) });
+const faqs = [1, 2, 3, 4] as const;
+---
+
+<Layout lang={lang} path="" active="settlement">
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start">
+    <section aria-labelledby="calc-title">
+      <h1 id="calc-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-ink">{t('meta.title')}</h1>
+
+      <details class="card mt-4 p-4 text-sm">
+        <summary class="cursor-pointer font-bold text-maroon-ink">{t('scope.title')}</summary>
+        <div class="mt-3 space-y-2 text-muted">
+          <p class="text-ink">{t('scope.body')}</p>
+          <p>{t('scope.notFor')}</p>
+          <p>{t('scope.minimums')}</p>
+        </div>
+      </details>
+
+      <form id="settlement-form" class="mt-5 space-y-4" novalidate>
+        <Step n={1} title={t('form.step1')}>
+          <Field name="startDate" kind="date" label={t('f.startDate')} min={RULES.dates.min} max={RULES.dates.max} />
+          <Field name="endDate" kind="date" label={t('f.endDate')} min={RULES.dates.min} max={RULES.dates.max} />
+          <Field
+            name="contractType"
+            kind="select"
+            class="sm:col-span-2"
+            label={t('f.contractType')}
+            options={[opt('indefinite', 'opt.indefinite'), opt('fixed', 'opt.fixed')]}
+          />
+          <Field
+            name="endReason"
+            kind="select"
+            class="sm:col-span-2"
+            label={t('f.endReason')}
+            options={[
+              opt('employeeResigned', 'opt.employeeResigned'),
+              opt('employerTerminated', 'opt.employerTerminated'),
+              opt('contractExpired', 'opt.contractExpired'),
+              opt('mutual', 'opt.mutual'),
+              opt('art61Dismissal', 'opt.art61Dismissal'),
+              opt('art51EmployerBreach', 'opt.art51EmployerBreach'),
+            ]}
+          />
+          <Field name="inProbation" kind="toggle" label={t('f.inProbation')} class="sm:col-span-2" />
+          <Field
+            name="probationLeavingTo"
+            kind="select"
+            label={t('f.probationLeavingTo')}
+            options={[opt('newEmployerInQatar', 'opt.newEmployerInQatar'), opt('leavingQatar', 'opt.leavingQatar')]}
+          />
+          <Field
+            name="agreedProbationNoticeDays"
+            kind="number"
+            label={t('f.agreedProbationNoticeDays')}
+            min={0}
+            max={60}
+            step={1}
+            value={30}
+          />
+        </Step>
+
+        <Step n={2} title={t('form.step2')}>
+          <Field name="basicSalary" kind="number" label={t('f.basicSalary')} hint={t('h.basicSalary')} prefix="QAR" min={0} step="any" />
+          <Field name="grossSalary" kind="number" label={t('f.grossSalary')} hint={t('h.grossSalary')} prefix="QAR" min={0} step="any" />
+        </Step>
+
+        <Step n={3} title={t('form.step3')}>
+          <Field name="unusedLeaveDays" kind="number" label={t('f.unusedLeaveDays')} hint="" min={0} max={365} step="any" />
+          <Field name="unpaidWorkedDays" kind="number" label={t('f.unpaidWorkedDays')} min={0} max={31} step={1} />
+        </Step>
+
+        <Step n={4} title={t('form.step4')} wrap="noticeStep">
+          <Field name="noticeDaysServed" kind="number" label={t('f.noticeDaysServed')} hint="" min={0} max={90} step={1} />
+          <Field name="contractNoticeDays" kind="number" label={t('f.contractNoticeDays')} min={0} max={90} step={1} />
+          <Field name="employerClaimsNotice" kind="toggle" label={t('f.employerClaimsNotice')} class="sm:col-span-2" />
+        </Step>
+
+        <Step n={5} title={t('form.step5')}>
+          <Field name="ticketOwed" kind="number" label={t('f.ticketOwed')} hint={t('h.ticketOwed')} prefix="QAR" min={0} step="any" />
+          <Field name="deductions" kind="number" label={t('f.deductions')} prefix="QAR" min={0} step="any" />
+        </Step>
+
+        <details class="card p-4 sm:p-5">
+          <summary class="cursor-pointer font-bold text-maroon-ink">{t('adv.title')}</summary>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <Field
+              name="gratuityDaysPerYear"
+              kind="number"
+              label={t('f.gratuityDaysPerYear')}
+              hint={t('h.gratuityDaysPerYear')}
+              min={21}
+              max={90}
+              step="any"
+              value={21}
+            />
+            <Field
+              name="gratuityMethod"
+              kind="select"
+              label={t('f.gratuityMethod')}
+              options={[opt('dailyBasic30', 'opt.dailyBasic30'), opt('weeklyWage', 'opt.weeklyWage')]}
+            />
+            <Field name="unpaidLeaveDays" kind="number" label={t('f.unpaidLeaveDays')} min={0} step={1} />
+            <Field
+              name="leaveDayBase"
+              kind="select"
+              label={t('f.leaveDayBase')}
+              options={[opt('30', 'opt.base30'), opt('26', 'opt.base26')]}
+            />
+          </div>
+        </details>
+
+        <div class="flex justify-end">
+          <button type="reset" class="btn btn-ghost">{t('btn.reset')}</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="lg:sticky lg:top-4 space-y-4" aria-labelledby="res-title">
+      <div class="card overflow-hidden" aria-live="polite">
+        <div class="relative bg-maroon text-on-maroon px-5 pt-4 pb-5">
+          <h2 id="res-title" class="text-sm font-semibold uppercase tracking-wide opacity-90">{t('res.title')}</h2>
+          <p class="mt-1 text-xs opacity-80" data-out="totalLabel">{t('res.total')}</p>
+          <p class="num mt-1 text-3xl sm:text-4xl font-bold" data-out="total">—</p>
+          <p class="mt-2 text-sm opacity-90" data-out="service"></p>
+        </div>
+        <div class="p-5 space-y-4">
+          <p class="text-sm text-muted" data-out="empty">{t('res.empty')}</p>
+          <ul class="divide-y divide-line" data-out="lines" role="list"></ul>
+          <div class="space-y-2" data-out="warnings"></div>
+          <div class="note hidden" data-out="due">
+            <p class="font-bold">{t('res.dueTitle')}</p>
+            <p data-out="dueText"></p>
+          </div>
+          <div class="hidden space-y-3" data-out="actions">
+            <details class="text-sm">
+              <summary class="cursor-pointer font-semibold text-maroon-ink">{t('print.name')} / {t('print.employer')}</summary>
+              <div class="mt-3 space-y-3">
+                <input class="input" id="print-name" maxlength="80" aria-label={t('print.name')} placeholder={t('print.name')} />
+                <input class="input" id="print-employer" maxlength="80" aria-label={t('print.employer')} placeholder={t('print.employer')} />
+                <p class="hint">🔒 {t('print.lock')}</p>
+              </div>
+            </details>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="btn btn-primary" id="btn-print">{t('btn.print')}</button>
+              <a href="#send-home" class="btn btn-ghost" id="btn-convert">{t('btn.convert')}</a>
+            </div>
+          </div>
+          <p class="text-xs text-muted">
+            {t('res.complaint')}
+            <a href="https://www.mol.gov.qa/" rel="noopener noreferrer" target="_blank" class="font-semibold text-maroon-ink">
+              {t('res.ministryLink')} ↗
+            </a>
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <a
+    href="#res-title"
+    data-out="sticky"
+    hidden
+    class="lg:hidden fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 bg-maroon px-4 py-3 text-on-maroon no-underline shadow-[0_-4px_16px_rgba(0,0,0,0.2)]"
+  >
+    <span class="text-sm font-semibold" data-out="stickyLabel">{t('res.total')}</span>
+    <span class="num text-lg font-bold" data-out="stickyTotal"></span>
+  </a>
+
+  <section id="send-home" class="mt-10 scroll-mt-4" aria-labelledby="fx-title">
+    <div class="card overflow-hidden">
+      <div class="serration-x h-3" aria-hidden="true"></div>
+      <div class="p-5 sm:p-6">
+        <h2 id="fx-title" class="text-xl sm:text-2xl font-bold">{t('fx.title')}</h2>
+        <p class="mt-1 text-muted">{t('fx.intro')}</p>
+        <div class="mt-5 grid gap-6 lg:grid-cols-2">
+          <div class="space-y-4">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="field-label" for="fx-amount">{t('fx.amount')}</label>
+                <input class="input num" id="fx-amount" type="number" inputmode="decimal" min="0" step="any" dir="ltr" />
+              </div>
+              <div>
+                <label class="field-label" for="fx-currency">{t('fx.currency')}</label>
+                <select class="input" id="fx-currency">
+                  {CURRENCIES.map((c) => <option value={c} selected={c === language.homeCurrency}>{c}</option>)}
+                </select>
+              </div>
+            </div>
+            <div class="rounded-xl bg-maroon-tint p-4">
+              <p class="text-sm text-muted">{t('fx.mid')}</p>
+              <p class="num text-2xl font-bold text-maroon-ink" data-fx="mid">—</p>
+              <p class="num text-sm text-muted" data-fx="rate"></p>
+              <p class="text-xs text-muted mt-1" data-fx="source"></p>
+            </div>
+            <div class="card p-4">
+              <h3 class="font-bold">{t('fx.quoteTitle')}</h3>
+              <div class="mt-3 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="field-label" for="fx-quoted">{t('fx.quotedRate')}</label>
+                  <input class="input num" id="fx-quoted" type="number" inputmode="decimal" min="0" step="any" dir="ltr" />
+                </div>
+                <div>
+                  <label class="field-label" for="fx-fee">{t('fx.fee')}</label>
+                  <input class="input num" id="fx-fee" type="number" inputmode="decimal" min="0" step="any" dir="ltr" />
+                </div>
+              </div>
+              <div class="mt-3 hidden text-sm" data-fx="quote">
+                <p>{t('fx.receive')}: <strong class="num" data-fx="quoteReceive"></strong></p>
+                <p class="mt-1 font-semibold text-maroon-ink" data-fx="quoteCost"></p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-bold">{t('fx.partners')}</h3>
+            <ul class="mt-3 space-y-3" data-fx="partners" role="list"></ul>
+            <p class="mt-3 text-xs text-muted" data-fx="disclosure" hidden>{t('fx.disclosure')}</p>
+            <p class="mt-1 text-xs text-muted">{t('fx.noEndorse')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-10" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="text-xl sm:text-2xl font-bold">{t('faq.title')}</h2>
+    <div class="mt-4 grid gap-3 md:grid-cols-2">
+      {
+        faqs.map((n) => (
+          <details class="card p-4">
+            <summary class="cursor-pointer font-semibold">{t(`faq.q${n}`)}</summary>
+            <p class="mt-2 text-sm text-muted">{t(`faq.a${n}`)}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <section slot="print" id="print-area" class="print-only" aria-hidden="true">
+    <div class="pr-head">
+      <h1>{t('print.title')}</h1>
+      <p>{t('site.name')}</p>
+    </div>
+    <div data-print="meta" class="pr-meta"></div>
+    <h2 class="pr-h2">{t('print.inputs')}</h2>
+    <table data-print="inputs" class="pr-table"></table>
+    <h2 class="pr-h2">{t('res.title')}</h2>
+    <table data-print="lines" class="pr-table"></table>
+    <div data-print="notes" class="pr-notes"></div>
+    <p class="pr-small">{t('footer.disclaimer')}</p>
+    <p data-print="generated" class="pr-small"></p>
+  </section>
+</Layout>
+
+<script>
+  import '../../scripts/settlement-ui';
+  import '../../scripts/converter-ui';
+</script>

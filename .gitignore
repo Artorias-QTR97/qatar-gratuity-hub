@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output and generated types
+dist/
+.astro/
+
+# Logs and caches
+npm-debug.log*
+*.log
+.vite/
+
+# Local environment
+.env
+.env.*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Personal Claude Code settings (launch.json is shared)
+.claude/settings.local.json

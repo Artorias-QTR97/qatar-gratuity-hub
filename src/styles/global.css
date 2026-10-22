@@ -1,0 +1,258 @@
+@import 'tailwindcss';
+
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/cairo/400.css';
+@import '@fontsource/cairo/700.css';
+@import '@fontsource/noto-sans-devanagari/400.css';
+@import '@fontsource/noto-sans-devanagari/700.css';
+@import '@fontsource/noto-sans-bengali/400.css';
+@import '@fontsource/noto-sans-bengali/700.css';
+@import '@fontsource/noto-sans-malayalam/400.css';
+@import '@fontsource/noto-sans-malayalam/700.css';
+@import '@fontsource/noto-sans-tamil/400.css';
+@import '@fontsource/noto-sans-tamil/700.css';
+@import '@fontsource/noto-sans-sinhala/400.css';
+@import '@fontsource/noto-sans-sinhala/700.css';
+@import '@fontsource/noto-nastaliq-urdu/400.css';
+@import '@fontsource/noto-nastaliq-urdu/700.css';
+
+/* Qatar flag palette: maroon (Pantone 1955) and white. */
+:root {
+  --maroon: #8a1538;
+  --maroon-strong: #6e102c;
+  --maroon-ink: #8a1538;
+  --maroon-tint: #f8e9ee;
+  --maroon-tint-2: #f1d4de;
+  --bg: #faf6f7;
+  --surface: #ffffff;
+  --surface-2: #fdfafb;
+  --text: #22161a;
+  --muted: #6b5a60;
+  --border: #e9dde1;
+  --focus: #c23a63;
+  --warn-bg: #fff6e5;
+  --warn-border: #f0d29a;
+  --warn-text: #6b4a00;
+  --on-maroon: #ffffff;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --leading: 1.55;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --maroon: #8a1538;
+    --maroon-strong: #a51d47;
+    --maroon-ink: #e07b98;
+    --maroon-tint: #2c141c;
+    --maroon-tint-2: #3d1a26;
+    --bg: #130b0e;
+    --surface: #1d1216;
+    --surface-2: #22151a;
+    --text: #f6ecef;
+    --muted: #bba6ad;
+    --border: #3a262d;
+    --focus: #e07b98;
+    --warn-bg: #2b2210;
+    --warn-border: #5c4718;
+    --warn-text: #f3d48c;
+    color-scheme: dark;
+  }
+}
+
+html[lang='ar'] { --font-body: 'Cairo', 'Inter', system-ui, sans-serif; }
+html[lang='ur'] { --font-body: 'Inter', 'Noto Nastaliq Urdu', system-ui, sans-serif; --leading: 2.1; }
+html[lang='hi'],
+html[lang='ne'] { --font-body: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif; --leading: 1.7; }
+html[lang='bn'] { --font-body: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif; --leading: 1.7; }
+html[lang='ml'] { --font-body: 'Inter', 'Noto Sans Malayalam', system-ui, sans-serif; --leading: 1.75; }
+html[lang='ta'] { --font-body: 'Inter', 'Noto Sans Tamil', system-ui, sans-serif; --leading: 1.75; }
+html[lang='si'] { --font-body: 'Inter', 'Noto Sans Sinhala', system-ui, sans-serif; --leading: 1.75; }
+
+@theme inline {
+  --color-maroon: var(--maroon);
+  --color-maroon-strong: var(--maroon-strong);
+  --color-maroon-ink: var(--maroon-ink);
+  --color-maroon-tint: var(--maroon-tint);
+  --color-maroon-tint-2: var(--maroon-tint-2);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-on-maroon: var(--on-maroon);
+  --font-sans: var(--font-body);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: var(--leading);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    min-height: 100vh;
+  }
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .num {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    unicode-bidi: isolate;
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+  }
+  .field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-block-end: 0.35rem;
+  }
+  .input {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    line-height: 1.4;
+    color: var(--text);
+    min-height: 2.75rem;
+  }
+  .input:hover { border-color: var(--maroon-tint-2); }
+  .input:focus { border-color: var(--maroon); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--maroon) 25%, transparent); }
+  .input[aria-invalid='true'] { border-color: #c0392b; }
+  .hint { font-size: 0.8rem; color: var(--muted); margin-block-start: 0.3rem; }
+  .error { font-size: 0.8rem; color: #c0392b; margin-block-start: 0.3rem; font-weight: 600; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.7rem 1.1rem;
+    font-weight: 600;
+    min-height: 2.75rem;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--maroon); color: var(--on-maroon); }
+  .btn-primary:hover { background: var(--maroon-strong); }
+  .btn-ghost { background: transparent; color: var(--maroon-ink); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--maroon-tint); }
+  .warn {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-text);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .note {
+    background: var(--maroon-tint);
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .badge-estimate {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    border: 1px solid var(--warn-border);
+    margin-inline-start: 0.4rem;
+    vertical-align: middle;
+  }
+  .toggle-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.65rem;
+    background: var(--surface-2);
+    cursor: pointer;
+  }
+  .toggle-row input { inline-size: 1.15rem; block-size: 1.15rem; accent-color: var(--maroon); margin-block-start: 0.2rem; flex: none; }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: 999px;
+    background: var(--maroon);
+    color: var(--on-maroon);
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex: none;
+  }
+}
+
+/* The flag's nine-point serrated edge, used as a decorative band. */
+.serration {
+  background: var(--on-maroon);
+  clip-path: polygon(
+    0 0, 55% 0,
+    100% 5.556%, 55% 11.111%, 100% 16.667%, 55% 22.222%, 100% 27.778%, 55% 33.333%,
+    100% 38.889%, 55% 44.444%, 100% 50%, 55% 55.556%, 100% 61.111%, 55% 66.667%,
+    100% 72.222%, 55% 77.778%, 100% 83.333%, 55% 88.889%, 100% 94.444%, 55% 100%,
+    0 100%
+  );
+}
+[dir='rtl'] .serration { transform: scaleX(-1); }
+
+.serration-x {
+  background: var(--maroon);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 40%,
+    97.222% 100%, 94.444% 40%, 91.667% 100%, 88.889% 40%, 86.111% 100%, 83.333% 40%,
+    80.556% 100%, 77.778% 40%, 75% 100%, 72.222% 40%, 69.444% 100%, 66.667% 40%,
+    63.889% 100%, 61.111% 40%, 58.333% 100%, 55.556% 40%, 52.778% 100%, 50% 40%,
+    47.222% 100%, 44.444% 40%, 41.667% 100%, 38.889% 40%, 36.111% 100%, 33.333% 40%,
+    30.556% 100%, 27.778% 40%, 25% 100%, 22.222% 40%, 19.444% 100%, 16.667% 40%,
+    13.889% 100%, 11.111% 40%, 8.333% 100%, 5.556% 40%, 2.778% 100%, 0 40%
+  );
+}
+
+.print-only { display: none; }
+.pr-head { border-inline-start: 10px solid #8a1538; padding-inline-start: 14px; }
+.pr-head h1 { font-size: 20px; margin: 0; }
+.pr-head p { margin: 4px 0 0; font-size: 12px; }
+.pr-meta { margin-top: 14px; font-size: 13px; }
+.pr-h2 { font-size: 14px; margin: 16px 0 6px; }
+.pr-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.pr-table td { border-bottom: 1px solid #ddd; padding: 5px 4px; vertical-align: top; }
+.pr-table td.pr-strong { font-weight: 700; }
+.pr-table td.pr-end { text-align: end; white-space: nowrap; }
+.pr-notes { margin-top: 12px; font-size: 11px; }
+.pr-small { margin-top: 12px; font-size: 10px; color: #444; }
+
+@media print {
+  @page { size: A4; margin: 14mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  .screen-only { display: none !important; }
+  .print-only { display: block !important; }
+}
