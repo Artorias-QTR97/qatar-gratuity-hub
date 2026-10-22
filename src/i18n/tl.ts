@@ -96,6 +96,11 @@ export const tl: Dict = {
   'verify.law': 'Buong teksto ng Labour Law (Al Meezan)',
   'verify.complaint': 'Magsampa ng reklamo',
   'verify.newTab': 'Bubuksan ang opisyal na website ng gobyerno sa bagong tab',
+  'share.title': 'May kakilala ka bang aalis sa trabaho sa Qatar? I-share ang libreng calculator na ito.',
+  'share.whatsapp': 'I-share sa WhatsApp',
+  'share.copy': 'Kopyahin ang link',
+  'share.copied': 'Nakopya ang link',
+  'share.message': 'Libreng calculator para sa gratuity at final settlement sa Qatar, sa sarili mong wika:',
 
   'w.notEligible': 'Kailangan ng kahit isang buong taon ng serbisyo para sa gratuity (Art. 54). Makukuha mo pa rin ang sahod, leave pay at notice pay.',
   'w.art61':

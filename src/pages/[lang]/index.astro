@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Field from '../../components/Field.astro';
 import Step from '../../components/Step.astro';
 import OfficialLinks from '../../components/OfficialLinks.astro';
+import ShareBar from '../../components/ShareBar.astro';
 import { LANGUAGES, translator, getLanguage } from '../../i18n';
 import { CURRENCIES } from '../../config/monetization';
 import { RULES } from '../../rules/qatar';
@@ -16,9 +17,19 @@ const t = translator(lang);
 const language = getLanguage(lang);
 const opt = (value: string, key: Parameters<typeof t>[0]) => ({ value, label: t(key) });
 const faqs = [1, 2, 3, 4] as const;
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: lang,
+  mainEntity: faqs.map((n) => ({
+    '@type': 'Question',
+    name: t(`faq.q${n}`),
+    acceptedAnswer: { '@type': 'Answer', text: t(`faq.a${n}`) },
+  })),
+};
 ---
 
-<Layout lang={lang} path="" active="settlement">
+<Layout lang={lang} path="" active="settlement" jsonLd={[faqJsonLd]}>
   <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start">
     <section aria-labelledby="calc-title">
       <h1 id="calc-title" class="text-2xl sm:text-3xl font-bold tracking-tight text-ink">{t('meta.title')}</h1>
@@ -234,6 +245,8 @@ const faqs = [1, 2, 3, 4] as const;
       </div>
     </div>
   </section>
+
+  <ShareBar lang={lang} path="" class="mt-10" />
 
   <section class="mt-10" aria-labelledby="faq-title">
     <h2 id="faq-title" class="text-xl sm:text-2xl font-bold">{t('faq.title')}</h2>

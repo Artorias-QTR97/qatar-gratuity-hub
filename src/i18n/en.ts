@@ -95,6 +95,11 @@ export const en = {
   'verify.law': 'Labour Law full text (Al Meezan)',
   'verify.complaint': 'File a complaint',
   'verify.newTab': 'Opens an official government website in a new tab',
+  'share.title': 'Know someone leaving a job in Qatar? Share this free calculator.',
+  'share.whatsapp': 'Share on WhatsApp',
+  'share.copy': 'Copy link',
+  'share.copied': 'Link copied',
+  'share.message': 'Free calculator for your Qatar gratuity and final settlement, in your language:',
 
   'w.notEligible':
     'Gratuity needs at least one full year of service (Art. 54). You can still claim salary, leave pay and notice pay.',

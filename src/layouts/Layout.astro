@@ -10,9 +10,11 @@ interface Props {
   path: string;
   title?: string;
   active?: 'settlement' | 'overtime' | 'privacy';
+  /** Extra schema.org objects for this page (e.g. an FAQPage). */
+  jsonLd?: Record<string, unknown>[];
 }
 
-const { lang, path, title, active } = Astro.props;
+const { lang, path, title, active, jsonLd = [] } = Astro.props;
 const language = getLanguage(lang);
 const t = translator(lang);
 const site = Astro.site ?? new URL('https://example.com');
@@ -23,6 +25,22 @@ const nav = [
   { key: 'overtime', href: `/${lang}/overtime/`, label: t('nav.overtime') },
   { key: 'sendHome', href: `/${lang}/#send-home`, label: t('nav.sendHome') },
 ] as const;
+const ogImage = new URL('/og-image.png', site).href;
+const structuredData = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: t('meta.title'),
+    description: t('meta.description'),
+    url: canonical,
+    inLanguage: lang,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'QAR' },
+  },
+  ...jsonLd,
+]).replaceAll('<', '\\u003c');
 const clientData = JSON.stringify({
   lang,
   intl: language.intl,
@@ -47,9 +65,18 @@ const clientData = JSON.stringify({
     {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(`/${l.code}/${path}`, site).href} />)}
     <link rel="alternate" hreflang="x-default" href={new URL(`/en/${path}`, site).href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t('site.name')} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={t('meta.description')} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={language.intl.replace('-', '_')} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={structuredData} />
   </head>
   <body class="antialiased">
     <script type="application/json" id="i18n-data" set:html={clientData} />
@@ -175,6 +202,7 @@ const clientData = JSON.stringify({
     <slot name="print" />
     <script>
       import '../scripts/language-pref';
+      import '../scripts/share';
     </script>
   </body>
 </html>

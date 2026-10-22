@@ -136,6 +136,8 @@ html[lang='si'] { --font-body: 'Inter', 'Noto Sans Sinhala', system-ui, sans-ser
   .btn-primary:hover { background: var(--maroon-strong); }
   .btn-ghost { background: transparent; color: var(--maroon-ink); border-color: var(--border); }
   .btn-ghost:hover { background: var(--maroon-tint); }
+  .btn-whatsapp { background: #128c7e; color: #fff; }
+  .btn-whatsapp:hover { background: #075e54; }
   .warn {
     background: var(--warn-bg);
     border: 1px solid var(--warn-border);
