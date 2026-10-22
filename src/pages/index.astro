@@ -15,6 +15,7 @@ const choices = LANGUAGES.map((l) => ({ ...l, title: translator(l.code)('choose.
     <title>{t('meta.title')}</title>
     <meta name="description" content={t('meta.description')} />
     <meta name="theme-color" content="#8a1538" />
+    <meta name="google-site-verification" content="f-xh61LXdusKHHH0JNYT8wewLdB8DJBkizy1qWDDDIc" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {LANGUAGES.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(`/${l.code}/`, site).href} />)}
     <link rel="alternate" hreflang="x-default" href={new URL('/en/', site).href} />
